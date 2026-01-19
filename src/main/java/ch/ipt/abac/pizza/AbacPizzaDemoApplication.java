@@ -1,4 +1,4 @@
-package ch.ipt.pizza.abac_pizza_demo;
+package ch.ipt.abac.pizza;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

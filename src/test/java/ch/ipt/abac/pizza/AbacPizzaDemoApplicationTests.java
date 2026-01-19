@@ -1,4 +1,4 @@
-package ch.ipt.pizza.abac_pizza_demo;
+package ch.ipt.abac.pizza;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
