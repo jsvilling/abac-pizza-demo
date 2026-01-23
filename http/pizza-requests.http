@@ -1,6 +1,11 @@
 ### Get all pizzas (with valid JWT)
+### Roles CHEF and CUSTOMER present
 GET http://localhost:8080/pizzas
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJuYW1lIjoiRGVtbyBVc2VyIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiIsIlJPTEVfQ0hFRiJdLCJpYXQiOjE3NjkwNjY2ODYsImV4cCI6MjA4NDQyNjY4Nn0.kEQu5pmwotMgnpq66RQ94Bk_4WG4oiefo1w15ZTzdxY
+
+### Role CUSTOMER present
+GET http://localhost:8080/pizzas
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc2VyIiwic3ViIjoiZGVtby11c2VyIiwiZXhwIjoxNzY5MTc1NTc2LCJpYXQiOjE3NjkxNzE5NzYsInJvbGVzIjpbIlJPTEVfQ1VTVE9NRVIiXX0.KVGU2l2KL_C36o_8HPK_lGIqJfMB2cb9YVD5QULnL0Y
 
 ### Get all pizzas (without token - should fail with 401)
 GET http://localhost:8080/pizzas
