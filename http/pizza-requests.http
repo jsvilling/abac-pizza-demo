@@ -1,0 +1,6 @@
+### Get all pizzas (with valid JWT)
+GET http://localhost:8080/pizzas
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkZW1vLXVzZXIiLCJuYW1lIjoiRGVtbyBVc2VyIiwicm9sZXMiOlsiUk9MRV9DVVNUT01FUiIsIlJPTEVfQ0hFRiJdLCJpYXQiOjE3NjkwNjY2ODYsImV4cCI6MjA4NDQyNjY4Nn0.kEQu5pmwotMgnpq66RQ94Bk_4WG4oiefo1w15ZTzdxY
+
+### Get all pizzas (without token - should fail with 401)
+GET http://localhost:8080/pizzas
