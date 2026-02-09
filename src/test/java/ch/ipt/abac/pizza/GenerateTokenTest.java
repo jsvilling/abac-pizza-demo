@@ -34,7 +34,7 @@ class GenerateTokenTest {
         JWTClaimsSet claims = new JWTClaimsSet.Builder()
                 .subject("demo-user")
                 .claim("name", "Demo User")
-                .claim("roles", List.of("ROLE_CUSTOMER"))
+                .claim("roles", List.of("ROLE_CHEF"))
                 .issueTime(Date.from(now))
                 .expirationTime(Date.from(now.plusSeconds(3600)))
                 .build();
