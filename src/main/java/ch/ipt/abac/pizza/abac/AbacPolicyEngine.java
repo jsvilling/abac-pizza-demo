@@ -1,11 +1,13 @@
 package ch.ipt.abac.pizza.abac;
 
+import ch.ipt.abac.pizza.adapter.secondary.SecurityContextAdapter;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -15,16 +17,24 @@ public class AbacPolicyEngine {
 
     public <T> JPAQuery<T> filter(JPAQuery<T> query) {
         // TODO: We need to get this in a more efficient way
-        final var roles = SecurityContextAdapter.currentRoles().stream()
+        final List<PizzaRole> roles = SecurityContextAdapter.currentRoles().stream()
                 .map(GrantedAuthority::getAuthority)
-                .map(PizzaRole::valueOf)
+                .map(str -> {
+                    try {
+                        return PizzaRole.valueOf(str);
+                    } catch (Exception e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
                 .toList();
 
         // TODO: This works only via side effects. I think we would need recursion to do it cleanly.
         return policies
             .stream()
             .filter(p -> containsAny(roles, p.relevantRoles()))
-            .reduce(query, (q, policy) -> policy.apply(q), (a, b) -> b);
+            .reduce(query, (q, policy) -> policy.
+                    apply(q), (a, b) -> b);
     }
 
     private boolean containsAny(List<PizzaRole> left, List<PizzaRole> right) {

@@ -1,7 +1,6 @@
 package ch.ipt.abac.pizza.adapter.secondary;
 
 import ch.ipt.abac.pizza.abac.AbacPolicyEngine;
-import ch.ipt.abac.pizza.abac.AbacSalamiPolicy;
 import ch.ipt.abac.pizza.adapter.secondary.persistence.PizzaEntity;
 import ch.ipt.abac.pizza.adapter.secondary.persistence.PizzaEntityMapper;
 import ch.ipt.abac.pizza.adapter.secondary.persistence.PizzaPostgresAdapter;
@@ -25,7 +24,6 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
     private final AbacPolicyEngine policyEngine;
 
     private final JPAQueryFactory queryFactory;
-    private final AbacSalamiPolicy salamiPolicy;
 
     @Override
     public Pizza createPizza(Pizza pizza) {
@@ -43,6 +41,7 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
                 .where(qPizza.name.eq(name));
 
         var completeQuery = policyEngine.filter(query);
+
         final PizzaEntity entity = completeQuery.fetchOne();
         return Optional.ofNullable(entity).map(pizzaMapper::map);
     }
@@ -51,8 +50,12 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
     public List<Pizza> findAllPizzas() {
         final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
 
-        return queryFactory
-                .selectFrom(qPizza)
+        var initialQuery = queryFactory
+                .selectFrom(qPizza);
+
+        var completeQuery = policyEngine.filter(initialQuery);
+
+        return completeQuery
                 .fetch()
                 .stream()
                 .map(pizzaMapper::map)

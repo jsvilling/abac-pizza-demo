@@ -7,8 +7,9 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc
 GET http://localhost:8080/pizzas
 Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc2VyIiwic3ViIjoiZGVtby11c2VyIiwiZXhwIjoxNzY5MTc1NTc2LCJpYXQiOjE3NjkxNzE5NzYsInJvbGVzIjpbIlJPTEVfQ1VTVE9NRVIiXX0.KVGU2l2KL_C36o_8HPK_lGIqJfMB2cb9YVD5QULnL0Y
 
-### Get all pizzas (without token - should fai l with 401)
+### Get all pizzas (without token - should fail with 401)
 GET http://localhost:8080/pizzas
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc2VyIiwic3ViIjoiZGVtby11c2VyIiwiZXhwIjoxNzcxNTg3MDk3LCJpYXQiOjE3NzE1ODM0OTcsInJvbGVzIjpbIlJPTEVfQ0hFRiJdfQ.w1JK4ED83_ySuEOtFWgxqWHbHXMxB6rTz7y8aKw74IE
 
 ### Create Pizza as Customer
 POST http://localhost:8080/pizzas
@@ -16,5 +17,5 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc
 
 ### Create Pizza as Chef
 POST http://localhost:8080/pizzas
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc2VyIiwic3ViIjoiZGVtby11c2VyIiwiZXhwIjoxNzcwNzA4NzcxLCJpYXQiOjE3NzA3MDUxNzEsInJvbGVzIjpbIlJPTEVfQ0hFRiJdfQ.v-OztgK4mXtgu3wH6HYOhbgKZDsgiomC8EAjfDKmLfA
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiRGVtbyBVc2VyIiwic3ViIjoiZGVtby11c2VyIiwiZXhwIjoxNzcwOTk4MjAxLCJpYXQiOjE3NzA5OTQ2MDEsInJvbGVzIjpbIlJPTEVfQ0hFRiJdfQ.QrzTls2qGwL8IJp-lYFDpeTqnBK3BKFd5qUrUyHo0eQ
 

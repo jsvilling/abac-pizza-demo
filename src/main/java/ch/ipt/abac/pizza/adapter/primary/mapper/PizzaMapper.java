@@ -8,10 +8,10 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface PizzaMapper {
 
-    Pizza map(com.example.model.Pizza pizza);
+    Pizza map(ch.ipt.abac.pizza.abac.api.model.Pizza pizza);
 
-    com.example.model.Pizza map(Pizza pizza);
+    ch.ipt.abac.pizza.abac.api.model.Pizza map(Pizza pizza);
 
-    List<com.example.model.Pizza> map(List<Pizza> pizza);
+    List<ch.ipt.abac.pizza.abac.api.model.Pizza> map(List<Pizza> pizza);
 
 }

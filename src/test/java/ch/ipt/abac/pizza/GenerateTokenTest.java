@@ -49,6 +49,7 @@ class GenerateTokenTest {
         signedJWT.sign(new MACSigner(secretKey.getEncoded()));
         final var jwt = signedJWT.serialize();
         System.out.println(jwt);
+
 	}
 
 }

@@ -1,17 +1,13 @@
 package ch.ipt.abac.pizza.adapter.primary;
 
 import ch.ipt.abac.pizza.adapter.primary.mapper.PizzaMapper;
-import ch.ipt.abac.pizza.config.SecurityConfig;
-import ch.ipt.abac.pizza.domain.service.PizzaService;
 import ch.ipt.abac.pizza.port.primary.PizzaCorePort;
-import com.example.api.PizzasApi;
-import com.example.model.Pizza;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
-
+import ch.ipt.abac.pizza.abac.api.PizzasApi;
+import ch.ipt.abac.pizza.abac.api.model.Pizza;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,15 +18,16 @@ public class PizzaApiAdapter implements PizzasApi {
     private final PizzaMapper pizzaMapper;
 
     @Override
-    @PreAuthorize("hasRole('CHEF')")
-    public ResponseEntity<Pizza> createPizza() {
-        final var pizza = pizzaCorePort.createPizza(null);
-        final var pizzaDto = pizzaMapper.map(pizza);
-        return ResponseEntity.ok(pizzaDto);
+    @PreAuthorize("hasAuthority('demo_pizza_create')")
+    public ResponseEntity<Pizza> createPizza(Pizza pizzaDto) {
+        var requestedPizza = pizzaMapper.map(pizzaDto);
+        var createdPizza = pizzaCorePort.createPizza(requestedPizza);
+        var pizzaResponseDto = pizzaMapper.map(createdPizza);
+        return ResponseEntity.ok(pizzaResponseDto);
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('CHEF', 'CUSTOMER')")
+    @PreAuthorize("hasAuthority('demo_pizza_read')")
     public ResponseEntity<Pizza> findPizzaByName(String name) {
         final var pizza = pizzaCorePort.findPizzaByName(name);
         final var pizzaDto = pizzaMapper.map(pizza);
@@ -38,12 +35,10 @@ public class PizzaApiAdapter implements PizzasApi {
     }
 
     @Override
-    @PreAuthorize("hasAnyRole('CHEF', 'CUSTOMER')")
+    @PreAuthorize("hasAuthority('demo_pizza_read')")
     public ResponseEntity<List<Pizza>> getAllPizzas() {
         final var pizzas = pizzaCorePort.findAllPizzas();
         final var pizzaDtos = pizzaMapper.map(pizzas);
-        // TODO: Create proper SecurityContextAdapter
-        final var authy = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
         return ResponseEntity.ok(pizzaDtos);
     }
 

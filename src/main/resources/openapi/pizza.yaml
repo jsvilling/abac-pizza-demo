@@ -22,9 +22,14 @@ paths:
       summary: Create a pizza
       description: Creates a pizza
       operationId: createPizza
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pizza'
       responses:
         '200':
-          description: Successful greeting
+          description: Successful pizza creation
           content:
             application/json:
               schema:
@@ -47,7 +52,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pizza'
-
 components:
   schemas:
     Pizza:

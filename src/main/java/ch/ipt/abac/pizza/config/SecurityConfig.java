@@ -2,11 +2,11 @@ package ch.ipt.abac.pizza.config;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.util.Base64;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.io.File;
+import java.nio.file.Files;
+import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -24,6 +24,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.util.ResourceUtils;
 
 @Configuration
 @EnableWebSecurity
@@ -61,10 +62,20 @@ public class SecurityConfig {
     private Converter<Jwt, Collection<GrantedAuthority>> jwtAuthoritiesConverter() {
         return jwt -> {
             List<String> roles = jwt.getClaimAsStringList("roles");
-            return Optional.ofNullable(roles).orElse(List.of())
-                    .stream()
+            return roles.stream()
+                    .flatMap(this::getStringStream)
                     .map(SimpleGrantedAuthority::new)
                     .collect(Collectors.toList());
         };
     }
+
+    private Stream<String> getStringStream(String role) {
+        try {
+            File file = ResourceUtils.getFile("classpath:permissions/" + role + ".permissions");
+            return Files.lines(file.toPath());
+        } catch (Exception e) {
+            throw new IllegalStateException("Failed to read permissions for role: " + role, e);
+        }
+    }
+
 }
