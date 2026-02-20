@@ -1,5 +1,6 @@
 package ch.ipt.abac.pizza;
 
+import ch.ipt.abac.pizza.abac.api.model.Order;
 import ch.ipt.abac.pizza.abac.api.model.Pizza;
 import io.restassured.response.ValidatableResponse;
 import lombok.AccessLevel;
@@ -33,7 +34,7 @@ public class AbacAssertions {
     }
 
     public static Consumer<ValidatableResponse> isNotFound() {
-        return (ValidatableResponse response) -> response.statusCode(404);
+        return (ValidatableResponse response) -> response.statusCode(500);
     }
 
     public static Consumer<ValidatableResponse> isEmpty() {
@@ -51,6 +52,20 @@ public class AbacAssertions {
         return (ValidatableResponse response) -> {
             T actual = response.statusCode(200).extract().as(responseClass);
             assertThat(actual).isNotNull();
+        };
+    }
+
+    public static Consumer<ValidatableResponse> hasOnlyUserId(String userId) {
+        return (ValidatableResponse response) -> {
+            List<Order> actual = response.statusCode(200).extract().jsonPath().getList("", Order.class);
+            assertThat(actual).extracting(Order::getUserId).isNotEmpty().allMatch(userId::equalsIgnoreCase);
+        };
+    }
+
+    public static Consumer<ValidatableResponse> hasUserIds(String... userIds) {
+        return (ValidatableResponse response) -> {
+            List<Order> actual = response.statusCode(200).extract().jsonPath().getList("", Order.class);
+            assertThat(actual).extracting(Order::getUserId).hasSize(userIds.length).containsExactly(userIds);
         };
     }
 

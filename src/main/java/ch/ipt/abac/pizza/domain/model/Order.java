@@ -1,17 +1,22 @@
 package ch.ipt.abac.pizza.domain.model;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.UUID;
 
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Pizza {
-    private final UUID id;
-    private final String name;
-}
+public class Order {
 
+    private final UUID id;
+
+    @Setter
+    private String userId;
+
+    private final String pizzaName;
+
+    @Setter
+    private UUID pizzaId;
+
+}

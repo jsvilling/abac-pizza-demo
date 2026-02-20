@@ -67,6 +67,108 @@ paths:
         '404':
           description: Pizza not found
 
+  /orders:
+    get:
+      summary: Get orders
+      description: Get all orders or filter by userId
+      operationId: getOrders
+      responses:
+        '200':
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Order'
+
+    post:
+      summary: Create an order
+      description: Creates a new order
+      operationId: createOrder
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '201':
+          description: Successful order creation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+
+  /orders/{id}:
+    get:
+      summary: Get order by ID
+      description: Find an order by its UUID
+      operationId: getOrderById
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: UUID of the order
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: An order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+
+    put:
+      summary: Update order
+      description: Fully update an existing order
+      operationId: updateOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: UUID of the order
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Order'
+      responses:
+        '200':
+          description: Updated order
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Order'
+        '404':
+          description: Order not found
+
+    delete:
+      summary: Delete order
+      description: Deletes an order by UUID
+      operationId: deleteOrder
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: UUID of the order
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Order successfully deleted
+        '404':
+          description: Order not found
+
 components:
   schemas:
     Pizza:
@@ -79,3 +181,20 @@ components:
           format: uuid
         name:
           type: string
+
+    Order:
+      type: object
+      required:
+        - userId
+        - pizzaName
+        - pizza
+      properties:
+        id:
+          type: string
+          format: uuid
+        userId:
+          type: string
+        pizzaName:
+          type: string
+        pizza:
+          $ref: '#/components/schemas/Pizza'

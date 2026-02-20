@@ -53,6 +53,10 @@ public class ApiTestService {
                               Consumer<ValidatableResponse> validator) {
             this(httpMethod, url, "", user, validator);
         }
+
+        public String toString() {
+            return String.format("%s %s with %s", httpMethod, url, user);
+        }
     }
 
     @Value("${app.jwt.secret}")

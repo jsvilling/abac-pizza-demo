@@ -1,1 +1,5 @@
 demo_pizza_read
+demo_order_create
+demo_order_update
+demo_order_read
+demo_order_delete
