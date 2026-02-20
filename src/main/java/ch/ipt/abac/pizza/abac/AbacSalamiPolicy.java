@@ -12,12 +12,12 @@ public class AbacSalamiPolicy implements AbacPolicy{
 
     @Override
     public List<PizzaRole> relevantRoles() {
-        return List.of(PizzaRole.ROLE_CHEF);
+        return List.of(PizzaRole.ROLE_SALAMI_CUSTOMER);
     }
 
     public <T> JPAQuery<T> apply(JPAQuery<T> query) {
         final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
-        final var query2 = query.where(qPizza.id.eq(UUID.randomUUID())).where(qPizza.name.eq("salami"));
+        final var query2 = query.where(qPizza.id.eq(UUID.randomUUID())).where(qPizza.name.equalsIgnoreCase("salami"));
         return query2;
     }
 

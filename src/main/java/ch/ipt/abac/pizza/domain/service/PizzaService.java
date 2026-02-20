@@ -4,9 +4,11 @@ import ch.ipt.abac.pizza.domain.model.Pizza;
 import ch.ipt.abac.pizza.port.primary.PizzaCorePort;
 import ch.ipt.abac.pizza.port.secondary.PizzaPersistencePort;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -20,8 +22,13 @@ public class PizzaService implements PizzaCorePort {
     }
 
     @Override
-    public Pizza findPizzaByName(String name) {
-        return pizzaPersistencePort.findByName(name).orElseThrow();
+    public Pizza findPizzaById(UUID id) {
+        return pizzaPersistencePort.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Pizza> findPizzaByName(String name) {
+        return pizzaPersistencePort.findByName(name);
     }
 
     @Override

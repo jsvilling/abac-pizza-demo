@@ -37,7 +37,8 @@ public class ApiTestService {
     public record AbacTestUser(
             String userId,
             List<String> roles
-    ) {}
+    ) {
+    }
 
     public record AbacTestConfig(
             Method httpMethod,
@@ -46,8 +47,12 @@ public class ApiTestService {
             AbacTestUser user,
             Consumer<ValidatableResponse> validator
     ) {
-        // Additional constructors do default / null optional values go here.
-        // Override toString for nice display in JUnit
+        public AbacTestConfig(Method httpMethod,
+                              String url,
+                              AbacTestUser user,
+                              Consumer<ValidatableResponse> validator) {
+            this(httpMethod, url, "", user, validator);
+        }
     }
 
     @Value("${app.jwt.secret}")
@@ -64,6 +69,7 @@ public class ApiTestService {
         public TestRequestConfig(Method httpMethod, String url, String role) {
             this(httpMethod, url, "", role);
         }
+
         public TestRequestConfig(Method httpMethod, String url, Object body, String role) {
             this(httpMethod, url, body, null, List.of(role));
         }
@@ -96,10 +102,10 @@ public class ApiTestService {
     public void testUnauthorizedRequest(TestRequestConfig cfg) {
         final var spec = baseSpec(cfg);
         given()
-            .spec(spec)
-            .when()
-            .request(cfg.httpMethod)
-            .then().statusCode(UNAUTHORIZED.value());
+                .spec(spec)
+                .when()
+                .request(cfg.httpMethod)
+                .then().statusCode(UNAUTHORIZED.value());
     }
 
     public void testForbiddenRequestInvalidRole(TestRequestConfig cfg) {

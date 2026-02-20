@@ -38,10 +38,11 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {}));
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
+                }));
 
         return http.build();
     }
@@ -63,10 +64,15 @@ public class SecurityConfig {
     private Converter<Jwt, Collection<GrantedAuthority>> jwtAuthoritiesConverter() {
         return jwt -> {
             List<String> roles = jwt.getClaimAsStringList("roles");
-            return roles.stream()
+
+            Stream<SimpleGrantedAuthority> roleClaims = roles.stream()
+                    .map(SimpleGrantedAuthority::new);
+
+            Stream<SimpleGrantedAuthority> authorityClaims = roles.stream()
                     .flatMap(this::getStringStream)
-                    .map(SimpleGrantedAuthority::new)
-                    .collect(Collectors.toList());
+                    .map(SimpleGrantedAuthority::new);
+
+            return Stream.concat(roleClaims, authorityClaims).collect(Collectors.toList());
         };
     }
 

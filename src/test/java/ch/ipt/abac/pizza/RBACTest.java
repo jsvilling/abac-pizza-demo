@@ -14,12 +14,12 @@ import static io.restassured.http.Method.POST;
 class RBACTest {
 
     private static final String BASE_URL = "/pizzas";
-    private static final String SALAMI_URL = "/pizzas/salami";
+    private static final String SALAMI_URL = "/pizzas?name=salami";
 
     @Autowired
     ApiTestService testRequest;
 
-    @ParameterizedTest(name = "{0}")
+    @ParameterizedTest(name = "[{index}]: {0}")
     @MethodSource("validTestRequests")
     void testValidRequests(ApiTestService.TestRequestConfig cfg) {
         testRequest.testUnauthorizedRequest(cfg);
@@ -27,7 +27,7 @@ class RBACTest {
         testRequest.testValidRequest(cfg);
     }
 
-    @ParameterizedTest(name = "{0}")
+    @ParameterizedTest(name = "[{index}]: {0}")
     @MethodSource("forbiddenTestRequests")
     void testForbiddenRequests(ApiTestService.TestRequestConfig cfg) {
         testRequest.testUnauthorizedRequest(cfg);
@@ -37,25 +37,22 @@ class RBACTest {
 
     private static Stream<ApiTestService.TestRequestConfig> validTestRequests() {
 
-        Pizza pizza = new Pizza();
+        Pizza pizza = new Pizza().name("fungi");
 
         return Stream.of(
                 new ApiTestService.TestRequestConfig(GET, BASE_URL, "ROLE_CHEF"),
                 new ApiTestService.TestRequestConfig(GET, BASE_URL, "ROLE_CUSTOMER"),
-                new ApiTestService.TestRequestConfig(GET, BASE_URL, "ROLE_SALAMI_CHEF"),
                 new ApiTestService.TestRequestConfig(GET, BASE_URL, "ROLE_SALAMI_CUSTOMER"),
                 new ApiTestService.TestRequestConfig(GET, SALAMI_URL, "ROLE_CHEF"),
                 new ApiTestService.TestRequestConfig(GET, SALAMI_URL, "ROLE_CUSTOMER"),
-                new ApiTestService.TestRequestConfig(GET, SALAMI_URL, "ROLE_SALAMI_CHEF"),
                 new ApiTestService.TestRequestConfig(GET, SALAMI_URL, "ROLE_SALAMI_CUSTOMER"),
-                new ApiTestService.TestRequestConfig(POST, BASE_URL, pizza, "ROLE_CHEF"),
-                new ApiTestService.TestRequestConfig(POST, BASE_URL, pizza, "ROLE_SALAMI_CHEF")
+                new ApiTestService.TestRequestConfig(POST, BASE_URL, pizza, "ROLE_CHEF")
         );
     }
 
     private static Stream<ApiTestService.TestRequestConfig> forbiddenTestRequests() {
 
-        Pizza pizza = new Pizza();
+        Pizza pizza = new Pizza().name("name");
 
         return Stream.of(
                 new ApiTestService.TestRequestConfig(POST, BASE_URL, pizza, "ROLE_CUSTOMER"),

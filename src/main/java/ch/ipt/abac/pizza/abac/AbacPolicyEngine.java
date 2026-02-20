@@ -34,7 +34,7 @@ public class AbacPolicyEngine {
             .stream()
             .filter(p -> containsAny(roles, p.relevantRoles()))
             .reduce(query, (q, policy) -> policy.
-                    apply(q), (a, b) -> b);
+                    apply(q), (a, b) -> a);
     }
 
     private boolean containsAny(List<PizzaRole> left, List<PizzaRole> right) {

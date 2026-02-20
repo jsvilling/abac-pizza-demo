@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @AllArgsConstructor
@@ -33,12 +34,12 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
     }
 
     @Override
-    public Optional<Pizza> findByName(String name) {
+    public Optional<Pizza> findById(UUID id) {
         final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
 
         JPAQuery<PizzaEntity> query = queryFactory
                 .selectFrom(qPizza)
-                .where(qPizza.name.eq(name));
+                .where(qPizza.id.eq(id));
 
         var completeQuery = policyEngine.filter(query);
 
@@ -47,14 +48,22 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
     }
 
     @Override
-    public List<Pizza> findAllPizzas() {
+    public List<Pizza> findByName(String name) {
         final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
 
-        var initialQuery = queryFactory
-                .selectFrom(qPizza);
+        var query = queryFactory
+                .selectFrom(qPizza)
+                .where(qPizza.name.equalsIgnoreCase(name));
 
+        var completeQuery = policyEngine.filter(query);
+        return completeQuery.fetch().stream().map(pizzaMapper::map).toList();
+    }
+
+    @Override
+    public List<Pizza> findAllPizzas() {
+        final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
+        var initialQuery = queryFactory.selectFrom(qPizza);
         var completeQuery = policyEngine.filter(initialQuery);
-
         return completeQuery
                 .fetch()
                 .stream()

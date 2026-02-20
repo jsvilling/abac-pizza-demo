@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.ipt.abac.pizza.abac.api.PizzasApi;
 import ch.ipt.abac.pizza.abac.api.model.Pizza;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @RestController
@@ -28,17 +29,23 @@ public class PizzaApiAdapter implements PizzasApi {
 
     @Override
     @PreAuthorize("hasAuthority('demo_pizza_read')")
-    public ResponseEntity<Pizza> findPizzaByName(String name) {
-        final var pizza = pizzaCorePort.findPizzaByName(name);
-        final var pizzaDto = pizzaMapper.map(pizza);
-        return ResponseEntity.ok(pizzaDto);
+    public ResponseEntity<Pizza> getPizzaById(UUID id) {
+        final var pizza = pizzaCorePort.findPizzaById(id);
+        final var pizzaDtos = pizzaMapper.map(pizza);
+        return ResponseEntity.ok(pizzaDtos);
     }
 
     @Override
     @PreAuthorize("hasAuthority('demo_pizza_read')")
-    public ResponseEntity<List<Pizza>> getAllPizzas() {
-        final var pizzas = pizzaCorePort.findAllPizzas();
-        final var pizzaDtos = pizzaMapper.map(pizzas);
+    public ResponseEntity<List<Pizza>> getPizzas(String name) {
+        if (name == null) {
+            final var pizzas = pizzaCorePort.findAllPizzas();
+            final var pizzaDtos = pizzaMapper.map(pizzas);
+            return ResponseEntity.ok(pizzaDtos);
+        }
+
+        final var pizza = pizzaCorePort.findPizzaByName(name);
+        final var pizzaDtos = pizzaMapper.map(pizza);
         return ResponseEntity.ok(pizzaDtos);
     }
 

@@ -6,9 +6,16 @@ info:
 paths:
   /pizzas:
     get:
-      summary: Get all pizzas
-      description: Find all pizzas
-      operationId: getAllPizzas
+      summary: Get pizzas
+      description: Get all pizzas or filter by name
+      operationId: getPizzas
+      parameters:
+        - name: name
+          in: query
+          required: false
+          description: Filter pizzas by name
+          schema:
+            type: string
       responses:
         '200':
           description: A list of pizzas
@@ -18,44 +25,57 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Pizza'
+
     post:
       summary: Create a pizza
       description: Creates a pizza
       operationId: createPizza
       requestBody:
+        required: true
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Pizza'
       responses:
-        '200':
+        '201':
           description: Successful pizza creation
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pizza'
-  /pizzas/{name}:
+
+  /pizzas/{id}:
     get:
-      summary: Get pizzas by name
-      description: Find pizzas by name
-      operationId: findPizzaByName
+      summary: Get pizza by ID
+      description: Find a pizza by its UUID
+      operationId: getPizzaById
       parameters:
-        - name: name
+        - name: id
           in: path
           required: true
+          description: UUID of the pizza
           schema:
             type: string
+            format: uuid
       responses:
         '200':
-          description: A list of pizzas
+          description: A pizza
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/Pizza'
+        '404':
+          description: Pizza not found
+
 components:
   schemas:
     Pizza:
       type: object
+      required:
+        - name
       properties:
+        id:
+          type: string
+          format: uuid
         name:
           type: string
