@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import ch.ipt.abac.pizza.abac.PizzaRole;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -74,7 +75,7 @@ public class SecurityConfig {
             File file = ResourceUtils.getFile("classpath:permissions/" + role + ".permissions");
             return Files.lines(file.toPath());
         } catch (Exception e) {
-            throw new IllegalStateException("Failed to read permissions for role: " + role, e);
+            return Stream.of();
         }
     }
 

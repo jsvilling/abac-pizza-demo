@@ -7,15 +7,17 @@
 - Only a Chef should be able to create PIZZAS
 - Use Springs @Preautorize
 
+
 ## RBAC Permissions
 
 - Externalize the permissions into files
 - Use @PreAuthorize with hasAuthority now
 
+
 ## RBAC Permissions JEAP
 
-- Add the JEAP Dependencies
-- Use semantic roles
+- If you have time to kill
+- Look at https://github.com/jeap-admin-ch/jeap stuff
 
 ---
 
