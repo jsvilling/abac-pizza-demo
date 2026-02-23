@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Component
 @AllArgsConstructor
-public class AbacOwnOrderPolicy implements AbacPolicy{
+public class AbacOwnOrderPolicy implements AbacPolicy {
 
     private final JPAQueryFactory queryFactory;
 

@@ -22,7 +22,7 @@ public class AbacPolicyEngine {
     public <T> JPAQuery<T> filter(JPAQuery<T> query) {
         final List<PizzaRole> roles = SecurityContextAdapter.getCurrentRoles();
 
-        // TODO: This works only via side effects. I think we would need recursion to do it cleanly.
+        // TODO: This works only via side effects and should be refactored.
         return policies
             .stream()
             .filter(p -> containsAny(roles, p.relevantRoles()))
