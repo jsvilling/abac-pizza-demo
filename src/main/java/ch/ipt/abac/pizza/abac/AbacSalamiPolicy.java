@@ -19,9 +19,8 @@ public class AbacSalamiPolicy implements AbacPolicy{
 
     @Override
     public JPAQuery<Pizza> applyPizza(JPAQuery<Pizza> query) {
-        final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
-        final var query2 = query.where(qPizza.name.equalsIgnoreCase("salami"));
-        return query2;
+        final var qPizza = QPizzaEntity.pizzaEntity;
+        return query.where(qPizza.name.equalsIgnoreCase("salami"));
     }
 
     @Override

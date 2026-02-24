@@ -1,5 +1,7 @@
-package ch.ipt.abac.pizza;
+package ch.ipt.abac.pizza.auth;
 
+import ch.ipt.abac.pizza.auth.scaffold.ApiSecurityTestConfig;
+import ch.ipt.abac.pizza.auth.scaffold.ApiTestService;
 import ch.ipt.abac.pizza.abac.api.model.Pizza;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -11,7 +13,7 @@ import static io.restassured.http.Method.GET;
 import static io.restassured.http.Method.POST;
 
 @ApiSecurityTestConfig
-class RBACTest {
+class RbacTest {
 
     private static final String BASE_URL = "/pizzas";
     private static final String SALAMI_URL = "/pizzas?name=salami";

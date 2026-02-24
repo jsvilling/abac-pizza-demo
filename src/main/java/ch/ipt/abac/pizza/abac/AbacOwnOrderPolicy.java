@@ -26,26 +26,23 @@ public class AbacOwnOrderPolicy implements AbacPolicy {
 
     @Override
     public JPAQuery<Pizza> applyPizza(JPAQuery<Pizza> query) {
-        final String currentUserId = SecurityContextAdapter.getCurrentUserId();
-        final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
-        final QOrderEntity qOrder = QOrderEntity.orderEntity;
+        final var currentUserId = SecurityContextAdapter.getCurrentUserId();
+        final var qPizza = QPizzaEntity.pizzaEntity;
+        final var qOrder = QOrderEntity.orderEntity;
 
-        return query.where(
-                qPizza.id.in(
-                        queryFactory
-                                .select(qOrder.pizzaId)
-                                .from(qOrder)
-                                .where(qOrder.userId.eq(currentUserId))
-                )
-        );
+        final var pizzaIdSubquery = queryFactory
+                .select(qOrder.pizzaId)
+                .from(qOrder)
+                .where(qOrder.userId.eq(currentUserId));
+
+        return query.where(qPizza.id.in(pizzaIdSubquery));
     }
 
     @Override
     public JPAQuery<Order> applyOrder(JPAQuery<Order> query) {
-        final String currentUserId = SecurityContextAdapter.getCurrentUserId();
-        final QOrderEntity qOrder = QOrderEntity.orderEntity;
-        final var query2 = query.where(qOrder.userId.equalsIgnoreCase(currentUserId));
-        return query2;
+        final var currentUserId = SecurityContextAdapter.getCurrentUserId();
+        final var qOrder = QOrderEntity.orderEntity;
+        return query.where(qOrder.userId.equalsIgnoreCase(currentUserId));
     }
 
 }

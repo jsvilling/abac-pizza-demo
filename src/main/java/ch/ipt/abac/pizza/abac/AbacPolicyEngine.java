@@ -20,7 +20,7 @@ public class AbacPolicyEngine {
     private final List<AbacPolicy> policies;
 
     public <T> JPAQuery<T> filter(JPAQuery<T> query) {
-        final List<PizzaRole> roles = SecurityContextAdapter.getCurrentRoles();
+        final var roles = SecurityContextAdapter.getCurrentRoles();
 
         // TODO: This works only via side effects and should be refactored.
         return policies

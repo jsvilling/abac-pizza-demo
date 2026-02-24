@@ -35,35 +35,34 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
 
     @Override
     public Optional<Pizza> findById(UUID id) {
-        final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
+        final var qPizza = QPizzaEntity.pizzaEntity;
 
-        JPAQuery<PizzaEntity> query = queryFactory
+        final var query = queryFactory
                 .selectFrom(qPizza)
                 .where(qPizza.id.eq(id));
 
-        var completeQuery = policyEngine.filter(query);
-
-        final PizzaEntity entity = completeQuery.fetchOne();
+        final var completeQuery = policyEngine.filter(query);
+        final var entity = completeQuery.fetchOne();
         return Optional.ofNullable(entity).map(pizzaMapper::map);
     }
 
     @Override
     public List<Pizza> findByName(String name) {
-        final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
+        final var qPizza = QPizzaEntity.pizzaEntity;
 
-        var query = queryFactory
+        final var query = queryFactory
                 .selectFrom(qPizza)
                 .where(qPizza.name.equalsIgnoreCase(name));
 
-        var completeQuery = policyEngine.filter(query);
+        final var completeQuery = policyEngine.filter(query);
         return completeQuery.fetch().stream().map(pizzaMapper::map).toList();
     }
 
     @Override
     public List<Pizza> findAllPizzas() {
         final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
-        var initialQuery = queryFactory.selectFrom(qPizza);
-        var completeQuery = policyEngine.filter(initialQuery);
+        final var initialQuery = queryFactory.selectFrom(qPizza);
+        final var completeQuery = policyEngine.filter(initialQuery);
         return completeQuery
                 .fetch()
                 .stream()

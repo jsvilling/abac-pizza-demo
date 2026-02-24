@@ -60,9 +60,9 @@ public class OrdersApiAdapter implements OrdersApi {
     @Transactional
     @PreAuthorize("hasAuthority('demo_order_update')")
     public ResponseEntity<Order> updateOrder(UUID id, Order orderDto) {
-        var requestedOrder = orderMapper.map(orderDto);
-        var updatedOrder = orderCorePort.updateOrder(id, requestedOrder);
-        var orderResponseDto = orderMapper.map(updatedOrder);
+        final var requestedOrder = orderMapper.map(orderDto);
+        final var updatedOrder = orderCorePort.updateOrder(id, requestedOrder);
+        final var orderResponseDto = orderMapper.map(updatedOrder);
         return ResponseEntity.ok(orderResponseDto);
     }
 

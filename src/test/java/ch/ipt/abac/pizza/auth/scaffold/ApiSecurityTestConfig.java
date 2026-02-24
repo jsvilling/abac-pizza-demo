@@ -1,4 +1,4 @@
-package ch.ipt.abac.pizza;
+package ch.ipt.abac.pizza.auth.scaffold;
 
 
 import org.springframework.boot.test.context.SpringBootTest;

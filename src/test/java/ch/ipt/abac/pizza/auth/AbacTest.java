@@ -1,7 +1,9 @@
-package ch.ipt.abac.pizza;
+package ch.ipt.abac.pizza.auth;
 
+import ch.ipt.abac.pizza.auth.scaffold.ApiSecurityTestConfig;
 import ch.ipt.abac.pizza.abac.api.model.Order;
 import ch.ipt.abac.pizza.abac.api.model.Pizza;
+import ch.ipt.abac.pizza.auth.scaffold.ApiTestService;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -10,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ch.ipt.abac.pizza.AbacAssertions.*;
 import static ch.ipt.abac.pizza.abac.PizzaRole.*;
 import static io.restassured.http.Method.*;
 

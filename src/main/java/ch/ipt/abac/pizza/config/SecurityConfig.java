@@ -49,26 +49,26 @@ public class SecurityConfig {
 
     @Bean
     public JwtDecoder jwtDecoder() {
-        byte[] keyBytes = Base64.getDecoder().decode(jwtSecret);
-        SecretKey secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
+        final var keyBytes = Base64.getDecoder().decode(jwtSecret);
+        final var secretKey = new SecretKeySpec(keyBytes, "HmacSHA256");
         return NimbusJwtDecoder.withSecretKey(secretKey).build();
     }
 
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
-        JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
+        final var converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwtAuthoritiesConverter());
         return converter;
     }
 
     private Converter<Jwt, Collection<GrantedAuthority>> jwtAuthoritiesConverter() {
         return jwt -> {
-            List<String> roles = jwt.getClaimAsStringList("roles");
+            final var roles = jwt.getClaimAsStringList("roles");
 
-            Stream<SimpleGrantedAuthority> roleClaims = roles.stream()
+            final var roleClaims = roles.stream()
                     .map(SimpleGrantedAuthority::new);
 
-            Stream<SimpleGrantedAuthority> authorityClaims = roles.stream()
+            final var authorityClaims = roles.stream()
                     .flatMap(this::getStringStream)
                     .map(SimpleGrantedAuthority::new);
 
@@ -78,7 +78,7 @@ public class SecurityConfig {
 
     private Stream<String> getStringStream(String role) {
         try {
-            File file = ResourceUtils.getFile("classpath:permissions/" + role + ".permissions");
+            final var file = ResourceUtils.getFile("classpath:permissions/" + role + ".permissions");
             return Files.lines(file.toPath());
         } catch (Exception e) {
             return Stream.of();

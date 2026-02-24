@@ -1,4 +1,4 @@
-package ch.ipt.abac.pizza;
+package ch.ipt.abac.pizza.auth.scaffold;
 
 import ch.ipt.abac.pizza.abac.api.model.Order;
 import ch.ipt.abac.pizza.abac.api.model.Pizza;

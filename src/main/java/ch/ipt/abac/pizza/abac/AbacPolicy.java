@@ -13,7 +13,7 @@ public interface AbacPolicy {
     List<PizzaRole> relevantRoles();
 
     default <T> JPAQuery<T> apply(JPAQuery<T> query) {
-        var clazz = query.getType();
+        final var clazz = query.getType();
 
         if (OrderEntity.class.equals(clazz)) {
             return (JPAQuery<T>) applyOrder((JPAQuery<Order>) query);

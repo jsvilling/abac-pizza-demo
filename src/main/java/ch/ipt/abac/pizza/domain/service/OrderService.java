@@ -18,7 +18,7 @@ public class OrderService implements OrderCorePort {
 
     @Override
     public Order createOrder(Order order) {
-        String currentUserId = SecurityContextAdapter.getCurrentUserId();
+        final var currentUserId = SecurityContextAdapter.getCurrentUserId();
         order.setUserId(currentUserId);
         return orderPersistencePort.createOrder(order);
     }
@@ -35,7 +35,6 @@ public class OrderService implements OrderCorePort {
 
     @Override
     public Order updateOrder(UUID id, Order order) {
-        //Order dbOrder = orderPersistencePort.findById(id).orElseThrow();
         return orderPersistencePort.updateOrder(id, order);
     }
 

@@ -1,4 +1,4 @@
-package ch.ipt.abac.pizza;
+package ch.ipt.abac.pizza.auth.scaffold;
 
 import com.nimbusds.jose.JOSEObjectType;
 import com.nimbusds.jose.JWSAlgorithm;
