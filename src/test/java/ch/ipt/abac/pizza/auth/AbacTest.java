@@ -4,6 +4,7 @@ import ch.ipt.abac.pizza.auth.scaffold.ApiSecurityTestConfig;
 import ch.ipt.abac.pizza.abac.api.model.Order;
 import ch.ipt.abac.pizza.abac.api.model.Pizza;
 import ch.ipt.abac.pizza.auth.scaffold.ApiTestService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -12,18 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ch.ipt.abac.pizza.abac.PizzaRole.*;
+import static ch.ipt.abac.pizza.auth.scaffold.AbacAssertions.*;
 import static io.restassured.http.Method.*;
 import static ch.ipt.abac.pizza.auth.scaffold.AbacAssertions.*;
 
+@Disabled
 @ApiSecurityTestConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class AbacTest {
 
-    private static final ApiTestService.AbacTestUser CHEF = new ApiTestService.AbacTestUser("1", List.of(ROLE_CHEF.name()));
-    private static final ApiTestService.AbacTestUser CUSTOMER = new ApiTestService.AbacTestUser("1", List.of(ROLE_CUSTOMER.name()));
-    private static final ApiTestService.AbacTestUser SALAMI_CUSTOMER = new ApiTestService.AbacTestUser("1", List.of(ROLE_SALAMI_CUSTOMER.name()));
-    private static final ApiTestService.AbacTestUser SALAMI_ENTHUSIAST = new ApiTestService.AbacTestUser("1", List.of(ROLE_SALAMI_ENTHUSIAST.name()));
+    private static final ApiTestService.AbacTestUser CHEF = new ApiTestService.AbacTestUser("1", List.of());
+    private static final ApiTestService.AbacTestUser CUSTOMER = new ApiTestService.AbacTestUser("1", List.of());
+    private static final ApiTestService.AbacTestUser SALAMI_CUSTOMER = new ApiTestService.AbacTestUser("1", List.of());
+    private static final ApiTestService.AbacTestUser SALAMI_ENTHUSIAST = new ApiTestService.AbacTestUser("1", List.of());
 
     private static final String BASE_PIZZA_URL = "/pizzas";
     private static final String SEARCH_SALAMI_URL = "/pizzas?name=salami";

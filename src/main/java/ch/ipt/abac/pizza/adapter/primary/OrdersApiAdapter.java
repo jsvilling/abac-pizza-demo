@@ -22,7 +22,6 @@ public class OrdersApiAdapter implements OrdersApi {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAuthority('demo_order_create')")
     public ResponseEntity<Order> createOrder(Order orderDto) {
         var requestedOrder = orderMapper.map(orderDto);
         var createdOrder = orderCorePort.createOrder(requestedOrder);
@@ -32,7 +31,6 @@ public class OrdersApiAdapter implements OrdersApi {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAuthority('demo_order_delete')")
     public ResponseEntity<Void> deleteOrder(UUID id) {
         orderCorePort.deleteOrder(id);
         return ResponseEntity.noContent().build();
@@ -40,7 +38,6 @@ public class OrdersApiAdapter implements OrdersApi {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAuthority('demo_order_read')")
     public ResponseEntity<Order> getOrderById(UUID id) {
         final var order = orderCorePort.findOrderById(id);
         final var orderDto = orderMapper.map(order);
@@ -49,7 +46,6 @@ public class OrdersApiAdapter implements OrdersApi {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAuthority('demo_order_read')")
     public ResponseEntity<List<Order>> getOrders() {
         final var orders = orderCorePort.findAllOrders();
         final var orderDtos = orderMapper.map(orders);
@@ -58,7 +54,6 @@ public class OrdersApiAdapter implements OrdersApi {
 
     @Override
     @Transactional
-    @PreAuthorize("hasAuthority('demo_order_update')")
     public ResponseEntity<Order> updateOrder(UUID id, Order orderDto) {
         final var requestedOrder = orderMapper.map(orderDto);
         final var updatedOrder = orderCorePort.updateOrder(id, requestedOrder);

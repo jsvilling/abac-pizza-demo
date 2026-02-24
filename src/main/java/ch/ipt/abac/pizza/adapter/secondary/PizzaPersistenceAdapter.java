@@ -41,8 +41,7 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
                 .selectFrom(qPizza)
                 .where(qPizza.id.eq(id));
 
-        final var completeQuery = policyEngine.filter(query);
-        final var entity = completeQuery.fetchOne();
+        final var entity = query.fetchOne();
         return Optional.ofNullable(entity).map(pizzaMapper::map);
     }
 
@@ -54,16 +53,18 @@ public class PizzaPersistenceAdapter implements PizzaPersistencePort {
                 .selectFrom(qPizza)
                 .where(qPizza.name.equalsIgnoreCase(name));
 
-        final var completeQuery = policyEngine.filter(query);
-        return completeQuery.fetch().stream().map(pizzaMapper::map).toList();
+        return query
+                .fetch()
+                .stream()
+                .map(pizzaMapper::map)
+                .toList();
     }
 
     @Override
     public List<Pizza> findAllPizzas() {
-        final QPizzaEntity qPizza = QPizzaEntity.pizzaEntity;
-        final var initialQuery = queryFactory.selectFrom(qPizza);
-        final var completeQuery = policyEngine.filter(initialQuery);
-        return completeQuery
+        final var qPizza = QPizzaEntity.pizzaEntity;
+        final var query = queryFactory.selectFrom(qPizza);
+        return query
                 .fetch()
                 .stream()
                 .map(pizzaMapper::map)

@@ -36,7 +36,7 @@ public class SecurityConfig {
     private String jwtSecret;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -64,25 +64,10 @@ public class SecurityConfig {
     private Converter<Jwt, Collection<GrantedAuthority>> jwtAuthoritiesConverter() {
         return jwt -> {
             final var roles = jwt.getClaimAsStringList("roles");
-
-            final var roleClaims = roles.stream()
-                    .map(SimpleGrantedAuthority::new);
-
-            final var authorityClaims = roles.stream()
-                    .flatMap(this::getStringStream)
-                    .map(SimpleGrantedAuthority::new);
-
-            return Stream.concat(roleClaims, authorityClaims).collect(Collectors.toList());
+            return roles.stream()
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
         };
-    }
-
-    private Stream<String> getStringStream(String role) {
-        try {
-            final var file = ResourceUtils.getFile("classpath:permissions/" + role + ".permissions");
-            return Files.lines(file.toPath());
-        } catch (Exception e) {
-            return Stream.of();
-        }
     }
 
 }
