@@ -14,6 +14,7 @@ import java.util.stream.Stream;
 
 import static ch.ipt.abac.pizza.abac.PizzaRole.*;
 import static io.restassured.http.Method.*;
+import static ch.ipt.abac.pizza.auth.scaffold.AbacAssertions.*;
 
 @ApiSecurityTestConfig
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
