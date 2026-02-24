@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 import static ch.ipt.abac.pizza.abac.PizzaRole.*;
+import static ch.ipt.abac.pizza.auth.scaffold.AbacAssertions.*;
 import static io.restassured.http.Method.*;
 import static ch.ipt.abac.pizza.auth.scaffold.AbacAssertions.*;
 
@@ -22,8 +23,8 @@ class AbacTest {
 
     private static final ApiTestService.AbacTestUser CHEF = new ApiTestService.AbacTestUser("1", List.of(ROLE_CHEF.name()));
     private static final ApiTestService.AbacTestUser CUSTOMER = new ApiTestService.AbacTestUser("1", List.of(ROLE_CUSTOMER.name()));
-    private static final ApiTestService.AbacTestUser SALAMI_CUSTOMER = new ApiTestService.AbacTestUser("1", List.of(ROLE_SALAMI_CUSTOMER.name()));
-    private static final ApiTestService.AbacTestUser SALAMI_ENTHUSIAST = new ApiTestService.AbacTestUser("1", List.of(ROLE_SALAMI_ENTHUSIAST.name()));
+    private static final ApiTestService.AbacTestUser SALAMI_CUSTOMER = new ApiTestService.AbacTestUser("1", List.of());
+    private static final ApiTestService.AbacTestUser SALAMI_ENTHUSIAST = new ApiTestService.AbacTestUser("1", List.of());
 
     private static final String BASE_PIZZA_URL = "/pizzas";
     private static final String SEARCH_SALAMI_URL = "/pizzas?name=salami";

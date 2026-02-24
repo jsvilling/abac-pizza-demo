@@ -42,22 +42,19 @@ public class OrderPersistenceAdapter implements OrderPersistencePort {
                 .selectFrom(qOrder)
                 .where(qOrder.id.eq(id));
 
-        final var completeQuery = policyEngine.filter(query);
-        final var entity = completeQuery.fetchOne();
+        final var entity = query.fetchOne();
         return Optional.ofNullable(entity).map(orderMapper::map);
     }
 
     @Override
     public List<Order> findAllOrders() {
         final var qOrder = QOrderEntity.orderEntity;
-        final var initialQuery = queryFactory.selectFrom(qOrder);
-        final var completeQuery = policyEngine.filter(initialQuery);
-        return completeQuery.fetch().stream().map(orderMapper::map).toList();
+        final var query = queryFactory.selectFrom(qOrder);
+        return query.fetch().stream().map(orderMapper::map).toList();
     }
 
     @Override
     public Order updateOrder(UUID id, Order order) {
-        validateAccess(id);
         final var entity = orderMapper.map(order);
         final var updatedEntity = orderRepository.save(entity);
         return orderMapper.map(updatedEntity);
@@ -65,11 +62,6 @@ public class OrderPersistenceAdapter implements OrderPersistencePort {
 
     @Override
     public void deleteOrder(UUID id) {
-        validateAccess(id);
         orderRepository.deleteById(id);
-    }
-
-    private void validateAccess(UUID id) {
-        this.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 }
